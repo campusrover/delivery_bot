@@ -1,5 +1,5 @@
 <launch>
   <!-- nodes that work with alexa to expose a flask app and parse json requests-->
   <node pkg="delivery_bot" type="ngrok_launch.sh" name="ngrok_launch" output="screen"/>
-  <!-- <node pkg="delivery_bot" type="voice_backend.py" name="voice_backend" output="screen"></node> -->
+  <node pkg="delivery_bot" type="voice_backend.py" name="voice_backend" output="screen"></node>
 </launch>
