@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='unit_box_red'>
+  <model name='unit_box_green_1'>
     <link name='link'>
       <inertial>
         <mass>1</mass>
@@ -30,11 +30,11 @@
             <name>Gazebo/Grey</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
-          <ambient>0.7 0 0 0</ambient>
+          <diffuse>0 0.7 0 0</diffuse>
           <shader type='vertex'>
             <normal_map>__default__</normal_map>
           </shader>
-          <diffuse>0.7 0 0 0</diffuse>
+          <ambient>0 0.7 0 0</ambient>
           <specular>0.01 0.01 0.01 1</specular>
           <emissive>0 0 0 1</emissive>
         </material>
