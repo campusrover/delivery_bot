@@ -15,6 +15,8 @@ from std_msgs.msg import String
 from nav_msgs.msg import Odometry
 
 parser = argparse.ArgumentParser(description='Delivery Routing')
+parser.add_argument('--mode', type=int, default='1', help='1 - delivery, 2 - delivery and check if person is present, 3 - delivery multiple with check')
+parser.add_argument('--namelist', nargs='+', default=[])
 parser.add_argument('--name', type=str, default="Pito",
                     help='Enter the name of the person accepting delivery')
 args = parser.parse_args()
@@ -27,10 +29,18 @@ rospy.init_node('deliver_routing')
 
 name_location_dict = {"Pito":[-3.37, -10.42], "Daniel":[0.80, -10.1], "Yifei":[-6.15, -10.42]}
 img = []
+delivery_queue = []
+delivery_2nd_attempt = []
 green_box_indicator = False
 
 # define bridge for OpenCV conversion
 bridge = cv_bridge.CvBridge()
+
+def print_queue_status():
+    global delivery_queue
+    global delivery_2nd_attempt
+    print ("Delivery Queue: ", delivery_queue)
+    print ("Delivery 2nd: ", delivery_2nd_attempt)
 
 def movebase_client(name_input):
 
@@ -106,16 +116,49 @@ def deliver_n_check(name_input):
     movebase_client(name_input)
     return detect_status()
 
+def multiple_delivery():
+    global delivery_queue
+    global delivery_2nd_attempt
+    while len(delivery_queue) > 0:
+        print_queue_status()
+        k = delivery_queue.pop(0)
+        if not deliver_n_check(k):
+            print("NOT delivered, will try again!")
+            delivery_2nd_attempt.append(k)
+        else:
+            print("Delivered!")
+    while len(delivery_2nd_attempt) > 0:
+        print_queue_status()
+        k = delivery_2nd_attempt.pop(0)
+        if not deliver_n_check(k):
+            print("Cannot deliver to ", k)
+        else:
+            print("Delivered (2 nd)")
+
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 image_sub = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback) 
 
 
 if __name__ == '__main__':
-    try:
-        print("Name Input: ", args.name)
-        result = deliver_n_check(args.name)
-        if result:
-            print("the person is there!")
-            rospy.loginfo("Goal reached and the person is there!")
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Navigation terminated.")
+    if args.mode != 3: 
+        try:
+            print("Name Input: ", args.name)
+            if args.mode == 2:
+                result = deliver_n_check(args.name)
+                if result:
+                    print("the person is there!")
+                    rospy.loginfo("Goal reached and the person is there!")
+            else:
+                result = movebase_client(args.name)
+                if result:
+                    print("Delivered!")
+                    rospy.loginfo("Goal reached!")
+        except rospy.ROSInterruptException:
+            rospy.loginfo("Navigation terminated.")
+    else: # multiple delivery, queue mode 
+        try:
+            print("Name List Input: ", args.namelist)
+            delivery_queue = args.namelist
+            multiple_delivery()
+        except rospy.ROSInterruptException:
+            rospy.loginfo("Navigation terminated.")
