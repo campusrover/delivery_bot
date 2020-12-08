@@ -46,7 +46,7 @@ def print_queue_status():
     print ("Delivery Queue: ", delivery_queue)
     print ("Delivery 2nd: ", delivery_2nd_attempt)
 
-def movebase_client(name_input):
+def movebase_client(name_input, x, y):
 
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
     client.wait_for_server()
@@ -54,8 +54,8 @@ def movebase_client(name_input):
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
-    goal.target_pose.pose.position.x = name_location_dict[name_input][0]
-    goal.target_pose.pose.position.y = name_location_dict[name_input][1]
+    goal.target_pose.pose.position.x = x
+    goal.target_pose.pose.position.y = y
     goal.target_pose.pose.orientation.w = -1
 
     client.send_goal(goal)
@@ -117,7 +117,9 @@ def detect_status():
 
 def deliver_n_check(name_input):
     # head to location based on name, check if person there by looking for green box
-    movebase_client(name_input)
+    global conn
+    coordinate = conn.execute("select location_x, location_y from employees where name=? COLLATE NOCASE", ('yifei', )).fetchall()[0]
+    movebase_client(name_input, coordinate[0], coordinate[1])
     return detect_status()
 
 def multiple_delivery():
