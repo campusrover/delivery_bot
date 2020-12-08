@@ -10,7 +10,7 @@ app = Flask(__name__)
 conn = sqlite3.connect('database.db')
 conn.execute('CREATE TABLE IF NOT EXISTS tasks (recipient text, phone text, status text, create_time datetime default current_timestamp, robot_id int)')
 conn.commit()
-conn.execute('CREATE TABLE IF NOT EXISTS robots (id int primary key, status text)')
+conn.execute('CREATE TABLE IF NOT EXISTS robots (id int primary key, status text, update_time datetime default current_timestamp)')
 conn.commit()
 
 @app.route('/')
@@ -38,11 +38,19 @@ def teardown_request(exception):
 @app.route('/deliver', methods=['GET', 'POST'])
 def deliver():
     deliver_data = request.get_json(force=True)
+
+    employee_find = g.db.execute("select * from employees where name='{}'".format(deliver_data["name"])).fetchall()
+    if(len(deliver_data) == 0):
+        return jsonify(
+            findEmployee = False
+        )
     
     selected_robot = g.db.execute("select id from robots where status='idle' order by random() limit 1").fetchall()[0][0]
     g.db.execute("INSERT INTO tasks (recipient, phone, status, robot_id) VALUES(?, ?, ?, ?)", (deliver_data["name"], deliver_data["phone"], 'new_task', selected_robot))
     g.db.commit()
-    return "received"
+    return jsonify(
+            findEmployee = True
+        )
 
 
 if __name__ == '__main__':
