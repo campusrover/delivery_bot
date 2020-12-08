@@ -13,6 +13,10 @@ from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
+from datetime import datetime
+import sqlite3
+
+conn = sqlite3.connect('database.db')
 
 parser = argparse.ArgumentParser(description='Delivery Routing')
 parser.add_argument('--mode', type=int, default='1', help='1 - delivery, 2 - delivery and check if person is present, 3 - delivery multiple with check')
