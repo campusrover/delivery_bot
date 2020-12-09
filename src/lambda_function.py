@@ -1,3 +1,6 @@
+"""
+The alexa end code deployed on AWS Lambda
+"""
 import logging
 import requests
 import json
