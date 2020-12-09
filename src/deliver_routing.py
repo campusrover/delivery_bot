@@ -125,6 +125,8 @@ def deliver_n_check(name_input):
 def multiple_delivery():
     global delivery_queue
     global delivery_2nd_attempt
+    global conn
+
     while len(delivery_queue) > 0:
         print_queue_status()
         k = delivery_queue.pop(0)
@@ -140,6 +142,8 @@ def multiple_delivery():
             print("Cannot deliver to ", k)
         else:
             print("Delivered (2 nd)")
+
+    movebase_client(name_input, 0, 0)
 
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 image_sub = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback) 
