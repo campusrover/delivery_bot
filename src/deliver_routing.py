@@ -31,7 +31,6 @@ args = parser.parse_args()
 
 rospy.init_node('deliver_routing')
 
-name_location_dict = {"Pito":[-3.37, -10.42], "Daniel":[0.80, -10.1], "Yifei":[-6.15, -10.42]}
 img = []
 delivery_queue = []
 delivery_2nd_attempt = []
@@ -118,7 +117,7 @@ def detect_status():
 def deliver_n_check(name_input):
     # head to location based on name, check if person there by looking for green box
     global conn
-    coordinate = conn.execute("select location_x, location_y from employees where name=? COLLATE NOCASE", ('yifei', )).fetchall()[0]
+    coordinate = conn.execute("select employees.location_x, employees.location_y from employees join tasks on tasks.recipient_id=employees.id where employees.id=? ", (name_input, )).fetchall()[0]
     movebase_client(name_input, coordinate[0], coordinate[1])
     return detect_status()
 
@@ -134,6 +133,10 @@ def multiple_delivery():
             print("NOT delivered, will try again!")
             delivery_2nd_attempt.append(k)
         else:
+
+            conn.execute("update tasks set status='completed' where id=? ", (k, ))
+            conn.commit()
+
             print("Delivered!")
     while len(delivery_2nd_attempt) > 0:
         print_queue_status()
@@ -141,6 +144,10 @@ def multiple_delivery():
         if not deliver_n_check(k):
             print("Cannot deliver to ", k)
         else:
+
+            conn.execute("update tasks set status='completed' where id=? ", (k, ))
+            conn.commit()
+            
             print("Delivered (2 nd)")
 
     movebase_client(name_input, 0, 0)
