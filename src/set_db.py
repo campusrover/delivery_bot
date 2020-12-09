@@ -4,11 +4,11 @@ conn = sqlite3.connect('database.db')
 
 
 # create table
-conn.execute('CREATE TABLE IF NOT EXISTS tasks (recipient_id int, status text, create_time datetime default current_timestamp, robot_id int)')
+conn.execute('CREATE TABLE IF NOT EXISTS tasks (id INTEGER primary key, recipient_id int, status text, create_time datetime default current_timestamp, robot_id int)')
 conn.commit()
-conn.execute('CREATE TABLE IF NOT EXISTS robots (id int primary key, status text, update_time datetime default current_timestamp)')
+conn.execute('CREATE TABLE IF NOT EXISTS robots (id INTEGER primary key, status text, update_time datetime default current_timestamp)')
 conn.commit()
-conn.execute('CREATE TABLE IF NOT EXISTS employees (id int primary key, name text, location_x real, location_y real )')
+conn.execute('CREATE TABLE IF NOT EXISTS employees (id INTEGER primary key, name text, location_x real, location_y real )')
 conn.commit()
 
 # clear old data
@@ -34,3 +34,11 @@ conn.execute("insert into employees values(2, 'Daniel', 0.08, -10.1)")
 conn.commit()
 conn.execute("insert into employees values(3, 'Pito', -6.15, -10.42)")
 conn.commit()
+
+
+
+# conn.execute("insert into tasks(recipient_id, status, robot_id) values(1, 'new_task', 1)")
+# conn.commit()
+
+# conn.execute("insert into tasks(recipient_id, status, robot_id) values(2, 'new_task', 1)")
+# conn.commit()
