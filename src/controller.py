@@ -10,7 +10,7 @@ def check_run_robot(id):
 
         last_modify_time = datetime.strptime(robot_status[1], '%Y-%m-%d %H:%M:%S')
         time_diff =(datetime.now() - last_modify_time).total_seconds() / 60.0
-        if robot_status[0] != "idle" or time_diff < 5 or len(tasks) == 0:
+        if robot_status[0] != "idle" or time_diff < 1 or len(tasks) == 0:
             return
         task_param = ""
         for task in tasks:
@@ -29,3 +29,4 @@ if __name__ == '__main__':
     while(True):
         check_run_robot(1)
         check_run_robot(2)
+        break
