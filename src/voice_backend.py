@@ -41,7 +41,7 @@ def deliver():
         )
 
     selected_robot = g.db.execute("select id from robots where status='idle' order by random() limit 1").fetchall()[0][0]
-    g.db.execute("INSERT INTO tasks (recipient_id, status, robot_id) VALUES(?, ?, ?, ?)", (employee_find[0][0], 'new_task', selected_robot))
+    g.db.execute("INSERT INTO tasks (recipient_id, status, robot_id) VALUES(?, ?, ?)", (employee_find[0][0], 'new_task', selected_robot))
     g.db.commit()
     return jsonify(
             findEmployee = True

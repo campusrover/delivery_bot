@@ -32,5 +32,5 @@ During delivery process. OpenCv is also sed to detect wheter recipient is in off
 
 * Finnally talk to alexa using "Hi Bot" to trigger the robot, then tell alexa the person you want to deliver to and the phone number of this recipient
 
-
+* Account for alexa test console is "brandeisdeliverybot@gmail.com"
 

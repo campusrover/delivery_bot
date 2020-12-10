@@ -32,7 +32,7 @@ conn.execute("insert into employees values(1, 'Pito', -3.37, -10.42)")
 conn.commit()
 conn.execute("insert into employees values(2, 'Daniel', 0.08, -10.1)")
 conn.commit()
-conn.execute("insert into employees values(3, 'Pito', -6.15, -10.42)")
+conn.execute("insert into employees values(3, 'Yifei', -6.15, -10.42)")
 conn.commit()
 
 
