@@ -8,11 +8,6 @@ from std_msgs.msg import String
 app = Flask(__name__)
 
 conn = sqlite3.connect('database.db')
-conn.execute('CREATE TABLE IF NOT EXISTS tasks (recipient text, phone text, status text, create_time datetime default current_timestamp, robot_id int)')
-conn.commit()
-conn.execute('CREATE TABLE IF NOT EXISTS robots (id int primary key, status text)')
-conn.commit()
-
 @app.route('/')
 def backend_entrance():
     robot_status = g.db.execute("select * from robots where status='idle'").fetchall()
@@ -38,11 +33,19 @@ def teardown_request(exception):
 @app.route('/deliver', methods=['GET', 'POST'])
 def deliver():
     deliver_data = request.get_json(force=True)
-    
+
+    employee_find = g.db.execute("select * from employees where name='{}' COLLATE NOCASE".format(deliver_data["name"])).fetchall()
+    if(len(employee_find) == 0):
+        return jsonify(
+            findEmployee = False
+        )
+
     selected_robot = g.db.execute("select id from robots where status='idle' order by random() limit 1").fetchall()[0][0]
-    g.db.execute("INSERT INTO tasks (recipient, phone, status, robot_id) VALUES(?, ?, ?, ?)", (deliver_data["name"], deliver_data["phone"], 'new_task', selected_robot))
+    g.db.execute("INSERT INTO tasks (recipient_id, status, robot_id) VALUES(?, ?, ?, ?)", (employee_find[0][0], 'new_task', selected_robot))
     g.db.commit()
-    return "received"
+    return jsonify(
+            findEmployee = True
+        )
 
 
 if __name__ == '__main__':

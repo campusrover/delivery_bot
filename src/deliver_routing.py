@@ -13,6 +13,10 @@ from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
+from datetime import datetime
+import sqlite3
+
+conn = sqlite3.connect('database.db')
 
 parser = argparse.ArgumentParser(description='Delivery Routing')
 parser.add_argument('--mode', type=int, default='1', help='1 - delivery, 2 - delivery and check if person is present, 3 - delivery multiple with check')
@@ -27,7 +31,6 @@ args = parser.parse_args()
 
 rospy.init_node('deliver_routing')
 
-name_location_dict = {"Pito":[-3.37, -10.42], "Daniel":[0.80, -10.1], "Yifei":[-6.15, -10.42]}
 img = []
 delivery_queue = []
 delivery_2nd_attempt = []
@@ -42,7 +45,7 @@ def print_queue_status():
     print ("Delivery Queue: ", delivery_queue)
     print ("Delivery 2nd: ", delivery_2nd_attempt)
 
-def movebase_client(name_input):
+def movebase_client(name_input, x, y):
 
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
     client.wait_for_server()
@@ -50,8 +53,8 @@ def movebase_client(name_input):
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
-    goal.target_pose.pose.position.x = name_location_dict[name_input][0]
-    goal.target_pose.pose.position.y = name_location_dict[name_input][1]
+    goal.target_pose.pose.position.x = x
+    goal.target_pose.pose.position.y = y
     goal.target_pose.pose.orientation.w = -1
 
     client.send_goal(goal)
@@ -113,12 +116,16 @@ def detect_status():
 
 def deliver_n_check(name_input):
     # head to location based on name, check if person there by looking for green box
-    movebase_client(name_input)
+    global conn
+    coordinate = conn.execute("select employees.location_x, employees.location_y from employees join tasks on tasks.recipient_id=employees.id where employees.id=? ", (name_input, )).fetchall()[0]
+    movebase_client(name_input, coordinate[0], coordinate[1])
     return detect_status()
 
 def multiple_delivery():
     global delivery_queue
     global delivery_2nd_attempt
+    global conn
+
     while len(delivery_queue) > 0:
         print_queue_status()
         k = delivery_queue.pop(0)
@@ -126,6 +133,10 @@ def multiple_delivery():
             print("NOT delivered, will try again!")
             delivery_2nd_attempt.append(k)
         else:
+
+            conn.execute("update tasks set status='completed' where id=? ", (k, ))
+            conn.commit()
+
             print("Delivered!")
     while len(delivery_2nd_attempt) > 0:
         print_queue_status()
@@ -133,9 +144,17 @@ def multiple_delivery():
         if not deliver_n_check(k):
             print("Cannot deliver to ", k)
         else:
+
+            conn.execute("update tasks set status='completed' where id=? ", (k, ))
+            conn.commit()
+            
             print("Delivered (2 nd)")
 
 
+    movebase_client(name_input, 0, 0)
+
+pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+image_sub = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback) 
 
 
 if __name__ == '__main__':
