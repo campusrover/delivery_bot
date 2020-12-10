@@ -16,12 +16,12 @@ def check_run_robot(id):
             return
         task_param = ""
         for task in tasks:
+            print(tasks, task)
             task_param  = task_param + " " + str(task[0])
 
        
         conn.execute("update robots set status='working' where id={}".format(id))
         conn.commit()
-
         os.system("python {}/deliver_routing.py --mode 3 --namelist {}".format(os.getcwd(), task_param))  
 
 
@@ -31,4 +31,3 @@ if __name__ == '__main__':
     while(True):
         check_run_robot(1)
         check_run_robot(2)
-        break

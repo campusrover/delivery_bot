@@ -13,6 +13,7 @@ conn.commit()
 conn.execute('CREATE TABLE IF NOT EXISTS employees (id INTEGER primary key, name text, location_x real, location_y real )')
 conn.commit()
 
+
 # clear old data
 conn.execute("delete from employees")
 conn.commit()
@@ -38,9 +39,8 @@ conn.execute("insert into employees values(3, 'Yifei', -6.15, -10.42)")
 conn.commit()
 
 
-
-# conn.execute("insert into tasks(recipient_id, status, robot_id) values(1, 'new_task', 1)")
-# conn.commit()
-
-# conn.execute("insert into tasks(recipient_id, status, robot_id) values(2, 'new_task', 1)")
-# conn.commit()
+# add initial two tasks
+conn.execute("insert into tasks(recipient_id, status, robot_id) values(1, 'new_task', 1)")
+conn.commit()
+conn.execute("insert into tasks(recipient_id, status, robot_id) values(2, 'new_task', 1)")
+conn.commit()

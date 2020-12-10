@@ -22,7 +22,7 @@ During delivery process. OpenCv is also sed to detect wheter recipient is in off
 
 ## How to start
 
-* To make the model (including willow garage base with colored boxes as identifiers) load correctly, make sure this repo is located within ../my_ros_data/catkin_ws/src/
+* To make the model (including willow garage base with colored boxes as identifiers) load correctly, make sure this repo is located within ../my_ros_data/catkin_ws/src/. Be sure to make all the Python files and shell script to be executable (chomod +x) or the launch file will not run correctly.
 
 * Start backend first by: roslaunch delivery_bot backend.launch 
 
