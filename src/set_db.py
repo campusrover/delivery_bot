@@ -44,3 +44,5 @@ conn.execute("insert into tasks(recipient_id, status, robot_id) values(1, 'new_t
 conn.commit()
 conn.execute("insert into tasks(recipient_id, status, robot_id) values(2, 'new_task', 1)")
 conn.commit()
+conn.execute("insert into tasks(recipient_id, status, robot_id) values(3, 'new_task', 2)")
+conn.commit()
