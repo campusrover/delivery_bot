@@ -31,3 +31,6 @@ During delivery process. OpenCv is also sed to detect wheter recipient is in off
 * To navigate/ perform delivery, first: roslaunch delivery_bot delivery_navigation.launch map_file:=/my_ros_data/catkin_ws/src/delivery_bot/map/modified_world.yaml
 
 * Finnally talk to alexa using "Hi Bot" to trigger the robot, then tell alexa the person you want to deliver to and the phone number of this recipient
+
+* Account for alexa test console is "brandeisdeliverybot@gmail.com"
+
