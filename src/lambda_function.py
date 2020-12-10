@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 The alexa end code deployed on AWS Lambda
 """

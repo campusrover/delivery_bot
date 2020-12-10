@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from flask import Flask, request, Response, g, jsonify
 import sqlite3
 import json
