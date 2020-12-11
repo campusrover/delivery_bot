@@ -35,12 +35,15 @@
 							<p>This is a multi-robot indoor delivery system. It will understand the command from human voice using Alexa framework, 
 								then make food delivery to people inside a specific building. This robotic system exists to solve the problem of the need to traverse through
 								complicated office setting. Originally we were exploring the problem of last mile food delivery in office then we generalized this problem to all deliveries within office / indoor settings.</p>
+							<p>hello</p>
 						</div>
 
 						<div class="feature">
 							<i class="fa fa-copy"></i>
 							<h3>Problems to Solve</h3>
-							<p>Time Consuming Indoor / Office Delivery</p>
+							<p>Time Consuming Delivery</p>
+							<p>Unfamiliarity with Office/ Indoor Environment</p>
+							<p>Delivery Target Not Present</p>
 						</div>
 						
 						<div class="feature">
@@ -70,7 +73,21 @@
 
 						<div class="container">
 							<h3><b>Problems that were solved, pivots that had to be taken</b></h3>
-							<p></p>
+							<p>Originally, we planned out simulation of a simple office setting using the pre-built willow garage as the basic blueprint. It turned out the garage map itself is too big to be completly included. 
+								To simplify the environmenmt a little bit with no sacrifice to the core functionality of our system, we only mapped part of the willow garage setting while leaving the rest out. This minor change allows 
+								us to demonstrate the full functionality of our delivery system and to spend minimal time on waiting for certain basic task to finish. For instance, we no longer need to wait for the robot to slowly make
+								itself all the way to one side of the office and we may focusing on demonstrating how the robot handling the case where the delovery target is not present in the office. <br>
+							</p>
+							<p> </p>
+							<p>Another change worthing mentioning is more significant as it is related to the core architecture of the delivery system. Our original vision is that when the robot is placed into a new environment, it will have
+								functionality to explore its sorroundings and register cetain landmarks to the database. If it runs into a person's office cube, as an example, it could register the coordiate of the office that person is located
+								in without the need of manually set up. However, we identified this approach, although very plausible to implement, should be excluded or at least altered. Rarely, we would find the robot a new environment that needs
+								self exploration as self exploration would be very slow and often unreliable (could miss several office cubes). The robot would identify an unique colored object within each office cube to identify the person and then store 
+								both the color and the coorinate to the database. There would be a mapping between color and each individual. If robot got a command from Alexa to deliver to "Stephen", it would look up the color of Stephen and the coordniate
+								of the box related to that color. <br><br>
+								After the pivot, the robot now still could scan the color when arriving within the office cube. It is looking for a green box or a red box instead of colored boxes as identifiers. The green box would mark the persoon
+								is present in the office and the bot can safely unload the delivery task while the red box would symbolize the person is not there and the bot would come back at a later time to make a second delivery attempt.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -105,7 +122,7 @@
 			</section>
 
 
-		<!-- Three -->
+		<!-- Three
 			<section id="two" class="wrapper style2 special">
 				<div class="inner narrow">
 					<header>
@@ -129,7 +146,7 @@
 						</ul>
 					</form>
 				</div>
-			</section>
+			</section> -->
 
 
 		<!-- Footer -->
