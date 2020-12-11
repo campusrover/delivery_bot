@@ -3,5 +3,5 @@
   <node pkg="delivery_bot" type="ngrok_launch.sh" name="ngrok_launch" output="screen" args="$(find delivery_bot)/src/ngrok_launch.sh"/>
   <node pkg="delivery_bot" type="set_db.py" name="set_db" output="screen" args="$(find delivery_bot)/src/set_db.py"></node>
   <node pkg="delivery_bot" type="voice_backend.py" name="voice_backend" output="screen" args="$(find delivery_bot)/src/voice_backend.py"></node>
-  
+  <node pkg="delivery_bot" type="controller.py" name="controller" output="screen" args="$(find delivery_bot)/src/controller.py"></node>
 </launch>

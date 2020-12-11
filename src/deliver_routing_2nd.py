@@ -154,14 +154,11 @@ def multiple_delivery():
 
     movebase_client(name_input, 0, 0)
 
-pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-image_sub = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback) 
-
 
 if __name__ == '__main__':
     
-    pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-    image_sub = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback) 
+    pub = rospy.Publisher('/second_bot/cmd_vel', Twist, queue_size=10)
+    image_sub = rospy.Subscriber('/second_bot/camera/rgb/image_raw', Image, image_callback) 
 
     if args.mode != 3: 
         try:
