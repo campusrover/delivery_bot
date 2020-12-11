@@ -1,6 +1,6 @@
 # delivery_bot
-author1 -- Yifei Han (yifeih@brandeis.edu)
-author2 -- Daniel Zhang (danielzhang@brandeis.edu)
+* author1 -- Yifei Han (yifeih@brandeis.edu)
+* author2 -- Daniel Zhang (danielzhang@brandeis.edu)
 
 ## Video Link
 
