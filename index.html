@@ -62,12 +62,24 @@
 
 						<div class="container">
 							<h3><b>Technical descriptions, illustrations</b></h3>
-							<p></p>
+							<p>When the multi robot indoor delivery system is fully functioning, the following components are used. First, Alexa will accept voice command as input. Then, Alexa will call Flask backend to create TASK entries
+								and place the newly created tasks into SQLite database. The Flask framework that is originally running on local host can be re-routed using Ngrok so that Alexa can reach it through API calls. On the robot side,
+								navigation package and Gazebo simulation must both run. These two can be laucnhed using two launch files included. The controller script of the robot will routinely check for entries within TASK table and 
+								dump all of the tasks to whichever robot that is idling at that moment. The robot utilized the pre-built map loaded upon launching the navigation components to naviage through the indoor settings. After arrving 
+								at the desired destination, it will check for the presense of the delivery target by looking for a green box indicator using masked image OpenCV. 
+							</p>
 						</div>
 
 						<div class="container">
 							<h3><b>Discussion of interesting algorithms, modules, techniques</b></h3>
-							<p></p>
+							<p>Upon dropping off the delivery item after arriving at the desired coordinate, the robot would check if the target is present within the office. This is done by checking whether there is a green box present
+								within camera vision of the robot. Although it seems like a very straightforward process, the implementation of this green box detection is not as simple as we expected it to be. First, the robot will head to the 
+								coordinate specified within SQLite database with no regards to its orientation upon arrival. This will bring in the possibility where the robot is facing north but the box is right behind the robot in the south 
+								direction. Our workaround for this situation is to make the robot rotate itself while actively monitoring the masked image for green color. If found during the rotational process, the robot will halt in motion immediately
+								to allow the dropoff of the delivery item. The second challenge we faced during this process is the color detection. The green color would not be actively filtered out by our masks sometimes due to the shadow and 
+								lighting condition. This issue can be resolved by altering the visual properties of the box to make it either self illuminate or make ambient (color of the object when no lights pointing at it) and diffuse (color of the object under 
+								pure white light) lighting property the exact same.
+							</p>
 						</div>
 
 						<div class="container">
