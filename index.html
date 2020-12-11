@@ -35,7 +35,6 @@
 							<p>This is a multi-robot indoor delivery system. It will understand the command from human voice using Alexa framework, 
 								then make food delivery to people inside a specific building. This robotic system exists to solve the problem of the need to traverse through
 								complicated office setting. Originally we were exploring the problem of last mile food delivery in office then we generalized this problem to all deliveries within office / indoor settings.</p>
-							<p>hello</p>
 						</div>
 
 						<div class="feature">
@@ -73,7 +72,15 @@
 
 						<div class="container">
 							<h3><b>Problems that were solved, pivots that had to be taken</b></h3>
-							<p>Originally, we planned out simulation of a simple office setting using the pre-built willow garage as the basic blueprint. It turned out the garage map itself is too big to be completly included. 
+							<p>
+								For the frontend which is implemented using Alexa, it will  be trigger by "Hi Bot". Then the system will try to listen voice, try to understand it and make corresponding behaviour based on it.
+								Since this is a delivery bot system. it expect to receive recipient information. Once enough information got collected, then the code delpoyed on lambda will talk with backend to check whether 
+								recipient name is legal since if no nobody work inside the building with specified name. robot will have no idea where to deliver.
+							</p>
+							<p>
+								After the task is created. The node responsible for organizing robot will detect that and it will send command to robot to start deliver every 5 minutes and mark that robot into "busy" status.
+							</p>
+							<p>As for building map of the building, we planned out simulation of a simple office setting using the pre-built willow garage as the basic blueprint. It turned out the garage map itself is too big to be completly included. 
 								To simplify the environmenmt a little bit with no sacrifice to the core functionality of our system, we only mapped part of the willow garage setting while leaving the rest out. This minor change allows 
 								us to demonstrate the full functionality of our delivery system and to spend minimal time on waiting for certain basic task to finish. For instance, we no longer need to wait for the robot to slowly make
 								itself all the way to one side of the office and we may focusing on demonstrating how the robot handling the case where the delovery target is not present in the office. <br>
