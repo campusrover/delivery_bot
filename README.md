@@ -3,7 +3,7 @@
 * author2 -- Daniel Zhang (danielzhang@brandeis.edu)
 
 ## Video Link
-
+https://www.youtube.com/watch?v=zjnT4KaOUfY
 
 
 ## Project Introduction
@@ -24,11 +24,11 @@ During delivery process. OpenCv is also sed to detect wheter recipient is in off
 
 * To make the model (including willow garage base with colored boxes as identifiers) load correctly, make sure this repo is located within ../my_ros_data/catkin_ws/src/. Be sure to make all the Python files and shell script to be executable (chomod +x) or the launch file will not run correctly.
 
-* Start backend first by: roslaunch delivery_bot backend.launch 
+* Start backend first by: `roslaunch delivery_bot backend.launch` 
 
-* Then launch modified Gazebo world: roslaunch delivery_bot delivery_world.launch model:=waffle
+* Then launch modified Gazebo world: `roslaunch delivery_bot delivery_world.launch model:=waffle`
 
-* To navigate/ perform delivery, first: roslaunch delivery_bot delivery_navigation.launch map_file:=/my_ros_data/catkin_ws/src/delivery_bot/map/modified_world.yaml
+* To navigate/ perform delivery, first: `roslaunch delivery_bot delivery_navigation.launch map_file:=/my_ros_data/catkin_ws/src/delivery_bot/map/modified_world.yaml`
 
 * Finnally talk to alexa using "Hi Bot" to trigger the robot, then tell alexa the person you want to deliver to and the phone number of this recipient
 
